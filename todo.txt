@@ -1,0 +1,31 @@
+Priorité 1
+
+- scan a list of users
+- display subcom
+- display correct number of coms
+
+
+Priorité 2
+- notifications nb posts a voir
+- see first (age/score/
+- On hoover stuff
+- send personnal content
+- Handle extended posts
+- display @ in subcomment
+- getmre comment
+- les posts insérés plusieurs fois
+
+
+Facultatif
+- Doge mod
+- FB / Twitter
+
+<a class="badge-evt post-read-more"  href="{{ x.post_url }}" target="_blank">
+						View Full Post <span class="shadow"></span>
+					</a>
+
+
+DONE :
+- Handle GIF
+- display GIF in comment
+- scan the hot often to add new posts

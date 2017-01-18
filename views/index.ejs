@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>SmartGaG</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+	<meta charset="UTF-8">
+	<meta name="description" content="9Gag with sart recommandations">
+	<meta name="keywords" content="9gag, joke, recommand, algorithm,fun,funny,lol">
+	<meta name="author" content="Fabien C.">
+</head>
+
+
+<body ng-app="LoadPicture">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-sanitize.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.2/angular-ui-router.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-inview/2.2.0/angular-inview.js"></script>
+
+<ul id="top-barre" ng-controller="NavCtrl">
+	<li>
+		<img src="images/logo.png" height="50" width="50">
+	</li>
+	<li>
+        <a class="logo" href="#hot">Hot</a>
+	</li>
+	<li>
+        <a class="logo" href="#trending">Trending</a>
+	</li>
+	<li>
+        <a class="logo" href="http://9gag.com">Go to 9GAG</a>
+	</li>
+	<li style="float:right" ng-show="isLoggedIn()"><a href="" ng-click="logOut()">Log Out</a></li>
+    <li style="float:right" ng-hide="isLoggedIn()"><a href="/#/login">Log In</a></li>
+    <li style="float:right" ng-hide="isLoggedIn()"><a href="/#/register">Register</a></li>
+	<li style="float:right" ng-show="isLoggedIn()"><a>{{ currentUser() }}</a></li>
+</ul>
+
+<div ng-controller="postsCtrl" id="pagebody">
+
+	<ui-view></ui-view>
+
+
+  	<script type="text/ng-template" id="/home.html">
+	  	<div ng-hide="isLoggedIn()" id="post_section">
+			<h1>Welcome on SmartGag</h1>
+  			<h3>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can see recommanded posts.</h3>
+	  	</div>
+		<div ng-show="isLoggedIn()" id="post_section">
+			<h3>Welcome back {{ currentUser() }}</h3>
+	  	</div>
+	  	<!-- rest of template -->
+  	</script>
+
+	<script type="text/ng-template" id="/trending.html">
+	  	<div ng-hide="isLoggedIn()" id="post_section">
+			<h1>Welcome on SmartGag</h1>
+  			<p>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can see recommanded posts.</p>
+	  	</div>
+		<div ng-show="isLoggedIn()" id="post_section">
+			<p>Sorry no trending available (yet)</p>
+	  	</div>
+	  	<!-- rest of template -->
+  	</script>
+
+<script type="text/ng-template" id="/hot.html">
+	<div ng-hide="isLoggedIn()">
+		<h1>Welcome on SmartGag</h1>
+  		<h3>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can see recommanded posts.</h3>
+	</div>
+  	<div ng-show="isLoggedIn()" id="post_section">
+		<article ng-repeat="x in posts">
+			<a target="_blank" class="post_title_link" href="{{ x.post_url }}"><h2 class="post_title">{{ x.title }}</h2></a>
+			<div class="table">
+				<div class="left-block">
+					<a target="_blank" href="{{ x.post_url }}">
+						<div>
+							<img ng-show="{{ x.post_type == 'image'}}" class="post_content" src="{{ x.url }}" alt="{{ x.title }}" style="">
+							<div>
+							<video ng-show="{{ x.post_type == 'video'}}" src="" dynamic-url dynamic-url-src="{{ x.url }}" preload="auto" loop="" muted="" autoplay="autoplay" poster="" width="460">
+		            			
+		       				 </video>
+							</div>
+						</div>
+					</a>
+					
+					<div class="post_scores"><p><a href="http://9gag.com">{{ x.nbpoints }} points</a> - <a href="http://9gag.com">{{ x.nbcomment }} comments</a></div>
+					<div class="post_buttons">
+						<ul class="btn-vote">
+				        <li><a class="vote-up" href="javascript:void(0);" rel="nofollow"><img src="images/top_arrow_grey.png" width="40px" height="30px"></a></li>
+				        <li><a class="vote-down" href="javascript:void(0);" rel="nofollow"><img src="images/top_arrow_grey.png" width="40px" height="30px"></a></li>
+				        <li><a class="comment" target="_blank" href="{{ x.post_url }}#comment" rel="nofollow"><img src="images/bubble.png" width="40px" height="30px"></a></li>	
+						<li class="facebook"><a href="/facebook"><p>Facebook<p></a></li>
+						<li class="twitter"><a href="/twitter"><p>Twitter<p></a></li>											
+				    </ul>			
+					</div>
+				</div>
+				<div class="right-block">
+				<div class="comment-block">
+					<div ng-repeat="com in x.bestcomments" ng-init="localshow=true;sizer=0" ng-show="localshow"  class="comment-entry badge-comment" >
+						<div ng-init="showtxt=true;"  check-height >
+						<div class="avatar" >
+							<div ng-repeat="(key, profilepic) in com.user.profileUrls" class="image-container">
+
+								<a href="{{ profilepic }}" target="_blank">
+									<img class="badge-user-avatar badge-normal" ng-src="{{ com.user.avatarUrl }}">
+								</a>
+							</div>
+						</div>
+								<div class="payload">
+									<div class="info">
+										<p><a ng-repeat="(key, profilepic) in com.user.profileUrls" href="{{ profilepic }}" class="username badge-author-name badge-normal"  target="_blank">{{ com.user.displayName }}</a>
+											<span></span>
+											<span></span>
+											<span>
+												<span class="points badge-vote-count">
+													<span>{{ com.likeCount }}</span>
+													<span> </span>
+													<span>points</span>
+												</span>
+												<span class="badge-vote-separator"> · </span>
+											</span>
+											<span class="time badge-ago">
+												<a class="comment-permalink" href="{{ com.permalink }}" target="_blank">{{ getAge(com.timestamp) }}</a>
+											</span>
+										</p>
+									</div>
+								<div ng-show="showtxt" class="content badge-content" ng-bind-html=com.text></div>
+								<img ng-hide="showtxt" class="comment-picture" src="{{ com.embedMediaMeta.embedImage.animated.url }}" removeemptyimg > 
+								<div class="media badge-media"></div>
+								<div class="action badge-action" ng-hide="true">
+									<span>
+										<a class="reply badge-reply-trigger" href="javascript:void(0);">Reply</a>
+									</span>
+									<div class="vote-buttons">
+										<a class="up" href="javascript:void(0);">
+											<span class="icn-up"></span>
+											<span class="label"></span>
+										</a>
+										<span class="seperator"></span>
+											<a class="down" href="javascript:void(0);">
+												<span class="icn-down"></span>
+												<span class="label"></span>
+											</a>
+									</div>
+								</div>
+							</div>
+							</div>
+							<div class="clearboth"></br></div>
+					</div>
+				</div>
+				</div>
+			</div>
+			<div  class="newline"><hr></div>
+	  	</article>
+		<img in-view="$inview&&myLoadingFunction()" src="/images/loading.gif" alt="Loading more, please wait" id="loading_btn">
+  </div>
+</script>
+
+	<script type="text/ng-template" id="/register.html">
+	  	<div class="page-header">
+			<h1>Welcome on SmartGAG</h1>
+	  	</div>
+
+	  	<div ng-show="error" class="alert alert-danger row">
+			<span>{{ error.message }}</span>
+	  	</div>
+
+	  	<form ng-submit="register()" style="margin-top:30px;">
+			<h3>Register</h3>
+			<div class="form-group">
+		 		<input type="text" 
+					class="form-control"
+		  			placeholder="Username"
+		  			ng-model="user.username">
+				</input>
+			</div>
+			<div class="form-group">
+		  		<input type="password"
+		  			class="form-control"
+		  			placeholder="Password"
+		  			ng-model="user.password"></input>
+			</div>
+			<button type="submit" class="btn btn-primary">Register</button>
+		</form>
+	</script>
+
+	<script type="text/ng-template" id="/login.html">
+		  <div class="page-header">
+				<h1>Login to SmartGag</h1>
+		  </div>
+
+		  <div ng-show="error" class="alert alert-danger row">
+				<span>{{ error.message }}</span>
+		  </div>
+
+		  <form ng-submit="logIn()" style="margin-top:30px;">
+				<h3>Log In</h3>
+
+				<div class="form-group">
+				  	<input type="text"
+				  		class="form-control"
+				  		placeholder="Username"
+				  		ng-model="user.username">
+					</input>
+				</div>
+				<div class="form-group">
+			  		<input type="password"
+			  			class="form-control"
+			  			placeholder="Password"
+			  			ng-model="user.password">
+					</input>
+				</div>
+				<button type="submit" class="btn btn-primary">Log In</button>
+		  </form>
+	</script>
+
+</div>
+
+<script src="/javascripts/loadpic.js"></script>
+
+
+
+</body>
+</html>

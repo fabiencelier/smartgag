@@ -1,0 +1,56 @@
+<div>
+	<div>
+		<div class="comment-entry badge-comment indent-1">
+			<div class="avatar">
+				<div class="image-container">
+					<a href="http://9gag.com/u/noahkleijberg1" target="_blank">
+						<img class="badge-user-avatar badge-normal" src="http://accounts-cdn.9gag.com/media/avatar/35856988_100_2.jpg">
+					</a>
+				</div>
+			</div>
+			<div class="payload">
+				<div class="info" >
+					<p >
+						<a class="username badge-author-name badge-normal" href="http://9gag.com/u/noahkleijberg1" target="_blank" >noahkleijberg1</a>
+						<span ></span>
+						<span ></span>
+						<span >
+							<span class="points badge-vote-count" >
+								<span >1</span>
+								<span > </span>
+								<span >point</span>
+							</span>
+							<span class="badge-vote-separator" > · </span>
+						</span>
+						<span class="time badge-ago" >
+							<a class="comment-permalink" href="http://9gag.com/gag/aqrwvg7#cs_comment_id=c_148390665760621216" target="_blank" >5h</a>
+						</span>
+					</p>
+				</div>
+				<div class="content badge-content" >
+					<a href="http://9gag.com/aid/aG1GWDG" target="_blank" onclick="CS3.onCommentMentionClicked('c_148390665760621216', '2', 'http://9gag.com/aid/aG1GWDG')">@noahkleijberg1</a>
+					So the reason of my life is that love is blind i guess.
+				</div>
+				<div class="media badge-media" ></div>
+				<div class="action badge-action" >
+					<span >
+						<a class="reply badge-reply-trigger" href="javascript:void(0);" >Reply</a>
+					</span>
+					<div class="vote-buttons" >
+						<a class="up" href="javascript:void(0);" >
+							<span class="icn-up" ></span>
+							<span class="label" >Upvote</span>
+						</a>
+						<span class="seperator" ></span>
+						<a class="down" href="javascript:void(0);" >
+							<span class="icn-down" ></span>
+							<span class="label" >Downvote</span>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix" ></div>
+		</div>
+	</div>
+</div>
+
